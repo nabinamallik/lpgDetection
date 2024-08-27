@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Falcon</title>
+
+    <link rel="icon" href="logo.webp" type="image/x-icon" />
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Firebase JS SDK v9 (modular version) -->
+    <script type="module">
+      // Import the Firebase modules that you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyATV1e7uytyRCnRG6haEFGO9gsz5N6P7mo",
+        authDomain: "lpgdetectionllp.firebaseapp.com",
+        databaseURL:
+          "https://lpgdetectionllp-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "lpgdetectionllp",
+        storageBucket: "lpgdetectionllp.appspot.com",
+        messagingSenderId: "95257927575",
+        appId: "1:95257927575:web:2469bad3f59d277083aed2",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Reference the gas reading in your Firebase database
+      const gasLevelRef = ref(database, "/Sensor/gasReading");
+
+      // Listen for value changes and update the webpage
+      onValue(
+        gasLevelRef,
+        (snapshot) => {
+          const gasLevel = snapshot.val();
+          document.getElementById("level").textContent = gasLevel;
+          console.log(gasLevel);
+
+          // Change background color based on gas level
+          if (gasLevel > 2200) {
+            document.body.style.backgroundColor = "red";
+            document.getElementById("level").textContent = "⚠️ Warning";
+          } else {
+            document.body.style.backgroundColor = "";
+          }
+        },
+        (errorObject) => {
+          console.log("The read failed: " + errorObject.name);
+        }
+      );
+    </script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <div class="nav-left">
+          <img src="logo.webp" class="logo" alt="Logo" />
+          <div class="name">Falcon</div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="firstSection">
+        <div class="rounded-description">
+          <span id="element"></span>
+          <div class="version">Version 1.0.1</div>
+        </div>
+        <div class="value-container">
+          <div id="valueNo"><p id="level">Loading...</p></div>
+        </div>
+      </section>
+      <hr />
+      <section class="secondSection">
+        <h1>DESCRIPTION</h1>
+        <div class="box">
+          <div class="vertical">
+            <img class="image-top" src="" alt="" />
+            <div class="vertical-title">
+              An LPG Gas Detection System is designed to monitor the
+              concentration of Liquefied Petroleum Gas (LPG) in the air. It uses
+              sensors to detect gas leaks, providing real-time alerts when gas
+              levels exceed a safe threshold. This system helps prevent
+              accidents and ensures safety by triggering warnings, such as
+              alarms or notifications, when hazardous gas concentrations are
+              detected, making it essential for both residential and industrial
+              environments.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <hr class="bottom-line" />
+    <footer class="footer">
+      <div class="text-center">
+        <p class="copyright">© BinEZ Technology</p>
+      </div>
+    </footer>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#element", {
+        strings: ["LPG GAS DETECTION SYSTEM"],
+        typeSpeed: 50,
+      });
+    </script>
+  </body>
+</html>
